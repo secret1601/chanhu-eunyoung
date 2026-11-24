@@ -124,19 +124,15 @@ section{padding:84px 30px}
 .intro-line{font-size:15px;letter-spacing:.14em;color:var(--ink-soft);line-height:2;margin-top:30px;opacity:0;animation:fade 1.2s .9s forwards}
 .intro-tap{margin-top:34px;font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--ink-faint);opacity:0;animation:fade 1s 1.6s forwards,breathe 2.6s 2.6s ease-in-out infinite}
 
-/* 도장 */
-.seal{
-  display:inline-grid;grid-template-columns:1fr 1fr;direction:rtl;
-  width:92px;height:92px;padding:9px;gap:0 2px;
-  background:var(--seal);color:var(--seal-ink);border-radius:7px;
-  font-family:var(--serif);font-weight:700;font-size:25px;line-height:1.02;
-  filter:url(#stamp);transform:rotate(-3deg);
-}
-.seal span{writing-mode:vertical-rl;display:flex;align-items:center;justify-content:center;letter-spacing:.02em}
-.seal.press{opacity:0;animation:press .75s .25s cubic-bezier(.3,1.5,.5,1) forwards}
-.seal.sm{width:46px;height:46px;padding:5px;font-size:12.5px;border-radius:4px}
-
-@keyframes press{0%{opacity:0;transform:rotate(-3deg) scale(1.6)}60%{opacity:1}100%{opacity:1;transform:rotate(-3deg) scale(1)}}
+/* 모노그램 */
+.mono{position:relative;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:108px;height:108px;font-family:var(--serif);font-size:17px;letter-spacing:.24em;color:var(--ink)}
+.mono span{padding-left:.24em;line-height:1}
+.mono .ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mono .ring circle{fill:none;stroke:var(--ink-soft);stroke-width:.9}
+.mono .h{width:9px;height:9px;fill:var(--seal)}
+.mono.press .ring circle{stroke-dasharray:312;stroke-dashoffset:312;animation:draw 1.5s .2s cubic-bezier(.6,0,.2,1) forwards}
+.mono.press span,.mono.press .h{opacity:0;animation:fade 1s .9s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fade{to{opacity:1}}
 @keyframes breathe{0%,100%{opacity:1}50%{opacity:.35}}
 
@@ -177,6 +173,8 @@ section{padding:84px 30px}
 .poem p+p{margin-top:28px}
 .names{margin-top:52px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:18px;letter-spacing:.14em}
 .names i{font-style:normal;font-size:13px;color:var(--ink-faint);letter-spacing:.1em}
+.names i,.vnames i{display:inline-flex;align-items:center;justify-content:center}
+.names i svg,.vnames i svg{width:11px;height:11px;fill:var(--seal)}
 .letter{margin-top:64px;padding:38px 26px 34px;background:var(--sheet);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left}
 .letter h3{font-weight:400;font-size:13px;letter-spacing:.2em;color:var(--pine);margin-bottom:22px}
 .letter p{font-size:14.5px;line-height:2.1;color:var(--ink-soft)}
@@ -199,12 +197,13 @@ section{padding:84px 30px}
 .cal-h span{font-family:var(--sans);font-size:11.5px;color:var(--ink-faint);padding-bottom:12px}
 .cal-g span{position:relative;height:42px;display:flex;align-items:center;justify-content:center;font-family:var(--num);font-size:17px;color:var(--ink-soft);isolation:isolate}
 .cal-h .sun,.cal-g .sun{color:var(--seal)}
-.cal-g .day{color:var(--seal-ink);font-weight:400}
-.cal-g .day::before{content:"";position:absolute;width:32px;height:32px;background:var(--seal);border-radius:4px;transform:rotate(-4deg);z-index:-1;filter:url(#stamp)}
+.cal-g .day{color:var(--seal);font-weight:400}
+.cal-g .day::before{content:"";position:absolute;width:34px;height:34px;border:1px solid var(--ink-soft);border-radius:50%;z-index:-1}
 .count{margin-top:40px;font-size:15px;line-height:2;color:var(--ink-soft)}
 .count .nums{display:flex;justify-content:center;align-items:baseline;gap:4px;margin-top:6px;color:var(--ink);font-size:13px}
 .count b{font-family:var(--num);font-weight:300;font-size:30px;margin-left:8px;min-width:1.2em;display:inline-block;text-align:right;font-variant-numeric:tabular-nums}
 .count b:first-child{margin-left:0}
+.big-date,.cal-g span,.count b{font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1}
 
 /* ============================================================
    사진
@@ -254,12 +253,26 @@ section{padding:84px 30px}
 
 .note{font-size:14.5px;line-height:2.05;color:var(--ink-soft)}
 
+/* 마음 전하실 곳 */
+.accts-wrap{margin-top:38px}
+.acc{border-top:1px solid var(--line);text-align:left}
+.acc:last-child{border-bottom:1px solid var(--line)}
+.acc-b{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 4px;font-size:15.5px;letter-spacing:.04em}
+.acc-b svg{transition:transform .4s;color:var(--ink-faint)}
+.acc.open .acc-b svg{transform:rotate(180deg)}
+.acc-p{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
+.acc.open .acc-p{grid-template-rows:1fr}
+.acc-p>div{overflow:hidden}
+.acct{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 4px 20px}
+.acct p{font-family:var(--sans);font-size:14px;color:var(--ink);line-height:1.6}
+.acct small{display:block;font-size:12.5px;color:var(--ink-faint)}
+
 /* ============================================================
    마무리
    ============================================================ */
 .end{padding-bottom:96px}
 .end-msg{font-size:15.5px;line-height:2.2;color:var(--ink)}
-.end .seal{margin-top:38px}
+.end .mono{margin-top:40px}
 .credit{margin-top:56px;font-family:var(--sans);font-size:11.5px;color:var(--ink-faint);letter-spacing:.04em}
 
 /* ============================================================
@@ -325,7 +338,7 @@ section{padding:84px 30px}
 <div id="intro" role="button" tabindex="0" aria-label="청첩장 열기">
   <div class="door l"></div><div class="door r"></div>
   <div class="intro-c">
-    <div class="seal press" aria-hidden="true"><span data-bind="groomShort"></span><span data-bind="brideShort"></span></div>
+    <div class="mono press" aria-hidden="true"><svg class="ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5" transform="rotate(-90 50 50)"/></svg><span data-bind="groomShort"></span><svg class="h" viewBox="0 0 24 24"><path d="M12 20.5s-8-4.9-8-10.6A4.5 4.5 0 0 1 12 7.2a4.5 4.5 0 0 1 8 2.7c0 5.7-8 10.6-8 10.6z"/></svg><span data-bind="brideShort"></span></div>
     <p class="intro-line">두 사람의 새로운 시작에<br>소중한 분들을 모십니다</p>
     <p class="intro-tap">눌러서 열기</p>
   </div>
@@ -343,7 +356,7 @@ section{padding:84px 30px}
     <div class="cover-row">
       <div class="arch"><div class="arch-in" id="mainPhoto"></div></div>
       <div class="vcols">
-        <p class="vnames"><span data-bind="groomName"></span><i>그리고</i><span data-bind="brideName"></span></p>
+        <p class="vnames"><span data-bind="groomName"></span><i aria-label="그리고"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.9-8-10.6A4.5 4.5 0 0 1 12 7.2a4.5 4.5 0 0 1 8 2.7c0 5.7-8 10.6-8 10.6z"/></svg></i><span data-bind="brideName"></span></p>
         <p class="vdate" data-bind="dateWords"></p>
       </div>
     </div>
@@ -358,22 +371,21 @@ section{padding:84px 30px}
       <p>늘 곁에서 마음을 나누어 주신<br>소중한 가족 여러분을 모시고<br>두 사람의 새로운 시작을<br>따뜻하게 나누고자 합니다.</p>
       <p>귀한 걸음 하시어 축복해 주시면<br>더없는 기쁨으로 간직하겠습니다.</p>
     </div>
-    <p class="names"><span data-bind="groomName"></span><i>그리고</i><span data-bind="brideName"></span></p>
+    <p class="names"><span data-bind="groomName"></span><i aria-label="그리고"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.9-8-10.6A4.5 4.5 0 0 1 12 7.2a4.5 4.5 0 0 1 8 2.7c0 5.7-8 10.6-8 10.6z"/></svg></i><span data-bind="brideName"></span></p>
     <div class="btn-row"><button class="btn line" data-open="contactSheet">
       <svg class="i" viewBox="0 0 24 24"><path d="M5 4h3.5l2 5-2.4 1.5a11 11 0 0 0 5.4 5.4L15 13.5l5 2V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>연락하기</button></div>
 
     <article class="letter" id="letter">
-      <h3>엄마의 새로운 시작을 축하하며</h3>
-      <p>늘 제 곁을 지켜주던 엄마에게<br>이제 엄마의 곁을 지켜줄<br>든든한 분이 생겼습니다.</p>
-      <p>두 분이 함께 걸어갈 길에<br>따뜻하고 다정한 날들만<br>가득하기를 진심으로 바랍니다.</p>
-      <p>귀한 자리에 오셔서<br>두 분의 앞날을 함께 축복해 주세요.</p>
+      <p>저희 어머니는<br>다사다난했던 시간 속에서도<br>한결같이 제 곁을 지켜주셨습니다.<br>그런 어머니를 보며<br>제 마음 한구석에는 늘<br>감사함과 걱정이 함께 있었습니다.</p>
+      <p>이제 어머니께서 좋은 분을 만나<br>새 출발을 하시게 되었습니다.<br>겨울이 길었던 만큼<br>봄이 더 반가운 법이지요.<br>곁에 든든한 분이 계시니<br>저도 비로소 마음이 놓입니다.</p>
+      <p>두 분이 함께 걸어갈 길에<br>따뜻한 날들만 가득하기를 바라며,<br>자리에 오셔서 함께 축복해 주시면<br>감사하겠습니다.</p>
       <p class="sign"><span><span data-bind="sonRole"></span> <span data-bind="sonName"></span> 올림</span></p>
     </article>
   </section>
 
   <!-- 그날 -->
   <section class="tint center">
-    <h2 class="sec-title">그날</h2>
+    <h2 class="sec-title">함께하는 날</h2>
     <p class="big-date" data-bind="dateDot"></p>
     <p class="big-sub"><span data-bind="weekKo"></span> <span data-bind="timeKo"></span></p>
     <div class="cal">
@@ -388,7 +400,7 @@ section{padding:84px 30px}
 
   <!-- 사진 -->
   <section class="center">
-    <h2 class="sec-title">우리의 순간</h2>
+    <h2 class="sec-title">두 분의 순간</h2>
     <div class="grid" id="grid"></div>
     <p class="hint hide" id="hint">자리표시를 누르면 내 기기의 사진으로 미리 볼 수 있어요.<br>미리보기는 이 화면에서만 보이며 저장되지 않습니다.</p>
     <button class="btn line more hide" id="moreBtn">사진 더 보기</button>
@@ -420,15 +432,17 @@ section{padding:84px 30px}
     <div class="btn-row"><button class="btn solid" data-open="rsvpSheet">참석 여부 알리기</button></div>
   </section>
 
+  <!-- 마음 전하실 곳 -->
+  <section class="center" id="accounts">
+    <h2 class="sec-title">마음 전하실 곳</h2>
+    <p class="note">축하해 주시는 마음만으로 충분하니<br>부담 갖지 않으셔도 괜찮습니다.<br>그래도 마음을 전하고 싶으신 분들을 위해<br>안내드립니다.</p>
+    <div class="accts-wrap" id="accts"></div>
+  </section>
+
   <!-- 마무리 -->
   <section class="end center">
     <p class="end-msg">먼 길 마다하지 않고<br>마음을 보내주시는 모든 분께<br>깊이 감사드립니다.</p>
-    <div class="seal" aria-hidden="true"><span data-bind="groomShort"></span><span data-bind="brideShort"></span></div>
-    <div class="btn-row">
-      <button class="btn line" id="copyLink"><svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>링크 복사</button>
-      <button class="btn solid" id="shareBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>공유하기</button>
-    </div>
-    <p class="credit" id="credit"></p>
+    <div class="mono" aria-hidden="true"><svg class="ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5"/></svg><span data-bind="groomShort"></span><svg class="h" viewBox="0 0 24 24"><path d="M12 20.5s-8-4.9-8-10.6A4.5 4.5 0 0 1 12 7.2a4.5 4.5 0 0 1 8 2.7c0 5.7-8 10.6-8 10.6z"/></svg><span data-bind="brideShort"></span></div>
   </section>
 </main>
 
@@ -524,7 +538,15 @@ const CONFIG = {
   rsvp: { phone: '010-5759-1690', endpoint: 'https://script.google.com/macros/s/AKfycbzvNy7eOnDPHcRh-ire4Xk1EDy_4lb_dhWIJl1r-Dm8QiUG6XAlZJh8LSjz0lt4sbiLGA/exec' },
 
 
-  credit: 'with love, 희준',
+  // 마음 전하실 곳 (enabled:false 로 섹션 숨김)
+  accounts: {
+    enabled: false,
+    groups: [
+      { title: '박찬후에게', items: [ { bank: '○○은행', number: '000-000000-00-000', holder: '박찬후' } ] },
+      { title: '최은영에게', items: [ { bank: '○○은행', number: '000-000000-00-000', holder: '최은영' } ] },
+    ],
+  },
+
 };
 
 /* ============================================================
@@ -580,7 +602,6 @@ const CONFIG = {
   };
   $$('[data-bind]').forEach(el => { const v = binds[el.dataset.bind]; if (v != null) el.textContent = v; });
   if (!CONFIG.son.enabled) $('#letter').remove();
-  $('#credit').textContent = CONFIG.credit || '';
 
   /* ---------- 달력 ---------- */
   (function(){
@@ -611,8 +632,8 @@ const CONFIG = {
     $('#cS').textContent = Math.floor(diff/1e3)%60;
     const g = esc(CONFIG.groom.short), b = esc(CONFIG.bride.short);
     let msg;
-    if (dday > 0) msg = `${g}와 ${b}의 새로운 시작까지`;
-    else if (dday === 0) msg = `오늘, ${g}와 ${b}의 새로운 시작을 함께합니다`;
+    if (dday > 0) msg = '두 분을 축하하는 자리까지';
+    else if (dday === 0) msg = '오늘, 두 분을 축하하는 자리가 열립니다';
     else msg = '함께 축복해 주셔서 진심으로 감사합니다';
     $('#countMsg').innerHTML = msg;
     $('#countNums').classList.toggle('hide', dday < 0 || diff === 0);
@@ -690,6 +711,25 @@ const CONFIG = {
   $('#info').innerHTML = CONFIG.transport.map(t => `<div><dt>${esc(t.label)}</dt><dd>${esc(t.text)}</dd></div>`).join('');
   $('#copyAddr').onclick = () => copy(CONFIG.venue.address, '주소를 복사했어요');
 
+  /* ---------- 마음 전하실 곳 ---------- */
+  if (!CONFIG.accounts?.enabled) $('#accounts').remove();
+  else {
+    $('#accts').innerHTML = CONFIG.accounts.groups.map((g,gi) => `
+      <div class="acc">
+        <button class="acc-b" aria-expanded="false" aria-controls="acc${gi}"><span>${esc(g.title)}</span>${ICON.down}</button>
+        <div class="acc-p" id="acc${gi}"><div>${g.items.map(a => `
+          <div class="acct"><p>${esc(a.bank)} ${esc(a.number)}<small>예금주 ${esc(a.holder)}</small></p>
+            <button class="chip" data-copy="${esc(a.bank)} ${esc(a.number)}">${ICON.copy}복사</button></div>`).join('')}
+        </div></div>
+      </div>`).join('');
+    $('#accts').addEventListener('click', e => {
+      const c = e.target.closest('[data-copy]');
+      if (c){ copy(c.dataset.copy, '계좌번호를 복사했어요'); return; }
+      const b = e.target.closest('.acc-b');
+      if (b){ const o = b.parentElement.classList.toggle('open'); b.setAttribute('aria-expanded', o); }
+    });
+  }
+
   /* ---------- 연락하기 ---------- */
   $('#contacts').innerHTML = CONFIG.contacts.map(c => `
     <div class="ct"><p>${c.role?`<small>${esc(c.role)}</small>`:''}${esc(c.name)}</p>
@@ -739,14 +779,6 @@ const CONFIG = {
     a.href = `sms:${digits(CONFIG.rsvp.phone)}?&body=${encodeURIComponent(body)}`;
     document.body.appendChild(a); a.click(); a.remove();
     hideSheet();
-  };
-
-  /* ---------- 공유 ---------- */
-  const shareTitle = `${CONFIG.groom.name} 그리고 ${CONFIG.bride.name}, 새로운 시작에 초대합니다`;
-  $('#copyLink').onclick = () => copy(location.href, '링크를 복사했어요');
-  $('#shareBtn').onclick = async () => {
-    if (navigator.share){ try { await navigator.share({ title: shareTitle, text: `${binds.dateKo} ${timeKo}, ${binds.venueLine}`, url: location.href }); } catch(_){} }
-    else copy(location.href, '링크를 복사했어요');
   };
 
   /* ---------- 유틸 ---------- */
